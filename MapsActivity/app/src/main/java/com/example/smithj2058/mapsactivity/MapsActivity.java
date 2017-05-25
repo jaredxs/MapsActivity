@@ -53,7 +53,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-
+        LatLng birthplace = new LatLng(32.7157, -117.1611);
+        mMap.addMarker(new MarkerOptions().position(birthplace).title("Born here"));
         //Initialize Google Play Services
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this,
@@ -169,7 +170,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 return;
             }
-            
+
         }
     }
 }
