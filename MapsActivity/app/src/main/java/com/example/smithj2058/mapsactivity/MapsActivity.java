@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -47,12 +48,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
+    public void toggleView(View view){
+        int holder = mMap.getMapType();
+        if(holder == 1){
+            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
+        }
+        else {
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        }
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mMap = googleMap;
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         LatLng birthplace = new LatLng(32.7157, -117.1611);
         mMap.addMarker(new MarkerOptions().position(birthplace).title("Born here"));
         //Initialize Google Play Services
