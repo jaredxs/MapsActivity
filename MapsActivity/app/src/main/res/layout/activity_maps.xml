@@ -9,10 +9,17 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/button"
+        android:id="@+id/buttonView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Switch Map View"
+        android:onClick="toggleView" />
+
+        <Button
+            android:id="@+id/buttonTrk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Switch Map View"
+            android:text="Track Me"
             android:onClick="toggleView" />
 
     </LinearLayout>
