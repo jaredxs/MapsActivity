@@ -62,6 +62,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
+        mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         LatLng birthplace = new LatLng(32.7157, -117.1611);
         mMap.addMarker(new MarkerOptions().position(birthplace).title("Born here"));
