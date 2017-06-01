@@ -19,7 +19,8 @@
             android:id="@+id/buttonTrk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Track Me" />
+            android:text="Track Me"
+            android:onClick="trackMe" />
 
     </LinearLayout>
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
