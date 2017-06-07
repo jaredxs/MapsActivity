@@ -10,17 +10,33 @@
 
         <Button
         android:id="@+id/buttonView"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:text="Switch Map View"
+        android:text="View"
         android:onClick="toggleView" />
 
         <Button
             android:id="@+id/buttonTrk"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="TRK"
+            android:onClick="trackMe" />
+        <EditText
+            android:id="@+id/editText_Search"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            />
+        <Button
+            android:id="@+id/buttonSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Track Me"
-            android:onClick="trackMe" />
+            android:text="Search"
+            android:onClick="searchPOI"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clear"
+            android:onClick="clearMarkers"/>
 
     </LinearLayout>
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,7 +44,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/map"
     android:name="com.google.android.gms.maps.SupportMapFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="390dp"
+    android:layout_height="472dp"
     tools:context="com.example.smithj2058.mapsactivity.MapsActivity" />
 </LinearLayout>

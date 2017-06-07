@@ -1,6 +1,8 @@
 package com.example.smithj2058.mapsactivity;
 
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.location.LocationProvider;
@@ -13,6 +15,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -30,10 +33,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
+    private Location loc;
+
+    private EditText editSearch;
 
     private LocationManager locationManager;
     private boolean isGPSenabled = false;
@@ -48,10 +58,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        editSearch = (EditText) findViewById(R.id.editText_Search);
         setContentView(R.layout.activity_maps);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }
 
     public void toggleView(View view) {
@@ -71,6 +83,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         LatLng birthplace = new LatLng(32.7157, -117.1611);
         mMap.addMarker(new MarkerOptions().position(birthplace).title("Born here"));
+        editSearch = (EditText) findViewById(R.id.editText_Search);
+
     }
 
     public void getLocation() {
@@ -99,7 +113,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             MIN_TIME_BW_UPDATES,
                             MIN_DISTANCE_CHANGE_FOR_UPDATES,
                             locationListenerGPS);
-                    Toast.makeText(this, "Using GPS", Toast.LENGTH_SHORT);
+                    Toast.makeText(this, "Using GPS", Toast.LENGTH_SHORT).show();;
                 }
                 if (isNetworkEnabled) {
                     Log.d("MapsActivity", "getLocation: Network enabled - requesting location updates");
@@ -107,7 +121,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             MIN_TIME_BW_UPDATES,
                             MIN_DISTANCE_CHANGE_FOR_UPDATES,
                             locationListenerNetwork);
-                    Toast.makeText(this, "Using Network", Toast.LENGTH_SHORT);
+                    Toast.makeText(this, "Using Network", Toast.LENGTH_SHORT).show();;
 
                 }
             }
@@ -144,21 +158,41 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             locationManager.removeUpdates(locationListenerGPS);
             locationManager.removeUpdates(locationListenerNetwork);
             Log.d("MapsActivity", "Tracking disabled");
-            Toast.makeText(this.getApplicationContext(), "Tracking disabled", Toast.LENGTH_SHORT);
+            Toast.makeText(this.getApplicationContext(), "Tracking disabled", Toast.LENGTH_SHORT).show();;
         }
         else {
             getLocation();
             isTrack = true;
             Log.d("MapsActivity", "Tracking enabled");
-            Toast.makeText(this.getApplicationContext(), "Tracking enabled", Toast.LENGTH_SHORT);
+            Toast.makeText(this.getApplicationContext(), "Tracking enabled", Toast.LENGTH_SHORT).show();;
 
         }
+    }
+
+    public void searchPOI(View view) throws IOException {
+        Geocoder myGeo = new Geocoder(this.getApplicationContext());
+         if(loc != null && editSearch.getText() !=null) {
+            List<Address> holder = myGeo.getFromLocationName(editSearch.getText().toString(), 3, loc.getLatitude() - .07246, loc.getLongitude() - .07246, loc.getLatitude() + .07246, loc.getLongitude() + .07246);
+            for (int i = 0; i < holder.size(); i++) {
+                LatLng poi = new LatLng(holder.get(i).getLatitude(), holder.get(i).getLongitude());
+                mMap.addMarker(new MarkerOptions().position(poi).title(holder.get(i).getAddressLine(0)));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(poi, MY_LOC_ZOOM_FACTOR));
+
+            }
+             Toast.makeText(this.getApplicationContext(), "Search Completed; Markers added", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void clearMakers(View view){
+        mMap.clear();
+        LatLng birthplace = new LatLng(32.7157, -117.1611);
+        mMap.addMarker(new MarkerOptions().position(birthplace).title("Born here"));
     }
 
     android.location.LocationListener locationListenerGPS = new android.location.LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
             dropMarker(location);
+            loc = location;
             if (ActivityCompat.checkSelfPermission(MapsActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MapsActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
@@ -225,6 +259,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         public void onLocationChanged(Location location) {
             dropMarker(location);
+            loc = location;
             Log.d("MapsActivity", "locationListenerNetwork: location changed");
             if (ActivityCompat.checkSelfPermission(MapsActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MapsActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
