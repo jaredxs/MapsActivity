@@ -10,32 +10,32 @@
 
         <Button
         android:id="@+id/buttonView"
-        android:layout_width="60dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:text="View"
+        android:text="VIEW"
         android:onClick="toggleView" />
 
         <Button
             android:id="@+id/buttonTrk"
-            android:layout_width="50dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:text="TRK"
             android:onClick="trackMe" />
         <EditText
             android:id="@+id/editText_Search"
-            android:layout_width="100dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             />
         <Button
             android:id="@+id/buttonSearch"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="Search"
+            android:text="SRCH"
             android:onClick="searchPOI"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:text="Clear"
+            android:text="CLR"
             android:onClick="clearMarkers"/>
 
     </LinearLayout>

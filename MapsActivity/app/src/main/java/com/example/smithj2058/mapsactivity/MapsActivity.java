@@ -182,7 +182,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
              Toast.makeText(this.getApplicationContext(), "Search Completed; Markers added", Toast.LENGTH_SHORT).show();
         }
     }
-    public void clearMakers(View view){
+    public void clearMarkers(View view){
         mMap.clear();
         LatLng birthplace = new LatLng(32.7157, -117.1611);
         mMap.addMarker(new MarkerOptions().position(birthplace).title("Born here"));
